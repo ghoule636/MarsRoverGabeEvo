@@ -10,6 +10,7 @@ namespace MarsRoverGabeEvo
         static Boolean errorOccured = false;
         static int count = 0;
         static List<Rover> roverList = new List<Rover>();
+        static System.IO.StreamReader roverInput;
 
         /**
          * Initializes the plateau with a height and width. 
@@ -48,7 +49,6 @@ namespace MarsRoverGabeEvo
          */
         private static void initMars()
         {
-            System.IO.StreamReader roverInput = new System.IO.StreamReader("./RoverInput.txt");
             //read the first line and set the size of the plateau.
             if ((line = roverInput.ReadLine()) != null)
             {
@@ -104,12 +104,20 @@ namespace MarsRoverGabeEvo
                     count++;
                 }
             }
-            roverInput.Close();
         }
 
         static void Main(string[] args)
         {
-            initMars();
+            try
+            {
+                roverInput = new System.IO.StreamReader("./RoverInput.txt");
+                initMars();
+                roverInput.Close();
+            }
+            catch
+            {
+                Console.WriteLine("Invalid Input File!");
+            }
             Console.WriteLine("Press return to exit.");
             Console.Read();
         }
